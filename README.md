@@ -1,2 +1,3 @@
-# go-lhe2root-ttbar
-Go tool to convert LHE file to root files based on gohep
+# LHE to ROOT file converter for ttbar events
+
+Go tool to convert LHE file to root files based on gohep, 
