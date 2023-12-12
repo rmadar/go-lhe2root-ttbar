@@ -1,4 +1,4 @@
-module lhe2root
+module github.com/rmadar/go-lhe2root-ttbar
 
 go 1.21.5
 

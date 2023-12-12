@@ -8,7 +8,8 @@ import (
 	"log"
 	"os"
 	"strings"
-
+	"compress/gzip"
+	
 	"go-hep.org/x/hep/groot"
 	"go-hep.org/x/hep/groot/rtree"
 	"go-hep.org/x/hep/heppdt"
@@ -46,16 +47,25 @@ type Particle struct {
 func main() {
 
 	// Input arguments
-	ifname := flag.String("f", "ttbar_0j_parton.lhe", "Path to the input LHE file")
-	tname := flag.String("t", "truth", "Name of the created TTree")
+	ifname  := flag.String("i", "ttbar_0j_parton.lhe", "Path to the input LHE file")
+	ofname  := flag.String("f", "output.root", "Path to the output ROOT file")
+	tname   := flag.String("t", "truth", "Name of the created TTree")
 	verbose := flag.Bool("v", false, "Enable verbose mode")
 	flag.Parse()
 
+	// Get the values behind the pointers for convenience
+	input := *ifname
+	output := *ofname
+	
+	// Uncompress on the fly if needed, and redefine input/output names
+	if strings.Contains(input, ".lhe.gz") {
+		input = uncompress(input)
+	}
+
 	// Prepare the outfile and tree
-	ofname := strings.ReplaceAll(*ifname, ".lhe", ".root")
-	fout, err := groot.Create(ofname)
+	fout, err := groot.Create(output)
 	if err != nil {
-		log.Fatalf("could not create ROOT file %q: %w", ofname, err)
+		log.Fatalf("could not create ROOT file %q: %w", output, err)
 	}
 	defer fout.Close()
 	var e Event
@@ -67,7 +77,7 @@ func main() {
 	defer tw.Close()
 
 	// Load LHE file
-	f, err := os.Open(*ifname)
+	f, err := os.Open(input)
 	if err != nil {
 		panic(err)
 	}
@@ -171,7 +181,7 @@ loop:
 		log.Fatalf("could not close tree-writer: %+v", err)
 	}
 
-	fmt.Println(" --> Event loop is done:", iEvt, "events processed and stored in", ofname)
+	fmt.Println(" --> Event loop is done:", iEvt, "events processed and stored in", output)
 }
 
 func setBranches(e *Event) []rtree.WriteVar {
@@ -253,4 +263,34 @@ func setBranches(e *Event) []rtree.WriteVar {
 
 func get4Vec(x [5]float64) fmom.PxPyPzE {
 	return fmom.NewPxPyPzE(x[0], x[1], x[2], x[3])
+}
+
+
+func uncompress(input string) string {	
+	// Open the gzipped file
+	gzippedFile, err := os.Open(input)
+	if err != nil {
+		panic(err)
+	}
+	defer gzippedFile.Close()
+	
+	// Create a new gzip reader
+	gzipReader, err := gzip.NewReader(gzippedFile)
+	defer gzipReader.Close()
+	
+	// Create a new file to hold the uncompressed data
+	output := strings.ReplaceAll(input, ".lhe.gz", ".lhe")
+	uncompressedFile, err := os.Create(output)
+	if err != nil {
+		panic(err)
+	}
+	defer uncompressedFile.Close()
+	
+	// Copy the contents of the gzip reader to the new file
+	_, err = io.Copy(uncompressedFile, gzipReader)
+	if err != nil {
+		panic(err)
+	}
+	
+	return output
 }
