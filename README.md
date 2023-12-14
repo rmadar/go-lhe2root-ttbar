@@ -5,8 +5,12 @@ Tool written in go to convert LHE files into ROOT files based on [gohep](https:/
 ### Output structure
 
 The truth information is stored organized in different blocks :
- - initial state : {PID, Pz, helicity} for the 2 incoming particles/partons
- - final state : {pT, Eta, Phi, PID, M} for each of the final state particle (t, b, W, l, v)
+ - initial state : `{PID, Pz, helicity}` for the 2 incoming particles/partons
+ - final state : `{pT, Eta, Phi, PID, M}` for each of the final state particle `{t, b, W, l, v}`
+
+Two known caveats:
+ 1. only dilepton final state is supported
+ 2. if the top quarks are not decayed, default values are used for decay produced kinematics `{b, W, l, v}` 
 
 
 ### Usage
