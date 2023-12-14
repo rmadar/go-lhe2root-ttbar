@@ -4,7 +4,9 @@ Tool written in go to convert LHE files into ROOT files based on [gohep](https:/
 
 ### Output structure
 
-The truth information is stored organized in different blocks.
+The truth information is stored organized in different blocks :
+ - initial state : {PID, Pz, helicity} for the 2 incoming particles/partons
+ - final state : {pT, Eta, Phi, PID, M} for each of the final state particle (t, b, W, l, v)
 
 
 ### Usage
