@@ -16,10 +16,10 @@ Two known caveats (14/12/2024):
 ### Usage
 ```
 Usage of ./lhe2root:
-  -f string
-    	Path to the output ROOT file (default "output.root")
   -i string
-    	Path to the input LHE file (default "ttbar_0j_parton.lhe")
+    	Name of the input LHE file (default "ttbar_0j_parton.lhe")
+  -o string
+    	Name of the output ROOT file (default "output.root")
   -t string
     	Name of the created TTree (default "truth")
   -v	Enable verbose mode

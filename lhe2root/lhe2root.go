@@ -47,8 +47,8 @@ type Particle struct {
 func main() {
 
 	// Input arguments
-	ifname  := flag.String("i", "ttbar_0j_parton.lhe", "Path to the input LHE file")
-	ofname  := flag.String("f", "output.root", "Path to the output ROOT file")
+	ifname  := flag.String("i", "ttbar_0j_parton.lhe", "Name of the input LHE file")
+	ofname  := flag.String("o", "output.root", "Name of the output ROOT file")
 	tname   := flag.String("t", "truth", "Name of the created TTree")
 	verbose := flag.Bool("v", false, "Enable verbose mode")
 	flag.Parse()
