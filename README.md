@@ -1,6 +1,6 @@
 # LHE to ROOT file converter for ttbar events
 
-Tool written in go to convert LHE files into ROOT files based on [gohep](https://github.com/go-hep). The executable program can be download [here](https://github.com/rmadar/go-lhe2root-ttbar/blob/main/lhe2root/lhe2root).
+Tool written in go to convert LHE files into ROOT files based on [gohep](https://github.com/go-hep). The executable program can be downloaded [here](https://github.com/rmadar/go-lhe2root-ttbar/blob/main/lhe2root/lhe2root), by clicking on the `download raw` button.
 
 ### Output structure
 
